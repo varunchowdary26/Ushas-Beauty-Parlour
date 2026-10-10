@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - Ushas Herbal Beauty Parlour</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://www.ushasherbalbeautyparlour.com/my-bookings.html">
+    <meta property="og:url" content="https://www.ushasherbalbeautyparlour.com/my-bookings.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cinematic-transition.css">
+
+    <style>
+        :root {
+            --pink: #c94672;
+            --pink-dark: #9e3156;
+            --pink-light: rgba(255, 244, 246, 0.75);
+            --gold: #b8864b;
+            --dark: #241b20;
+            --text: #554950;
+            --muted: #73676e;
+            --white: #ffffff;
+            --border: rgba(238, 227, 232, 0.85);
+            --green: #43a77b;
+            --orange: #d4873f;
+            --shadow: 0 15px 45px rgba(90, 48, 68, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: var(--dark);
+            background: transparent;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        /* Iridescence Background Canvas Container */
+        #iridescence-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #iridescence-bg canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 70, 114, 0.16);
+            box-shadow: 0 4px 22px rgba(90, 48, 68, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #241b20;
+            text-decoration: none;
+            letter-spacing: 0.2px;
+        }
+
+        .logo-mark {
+            width: 9px;
+            height: 9px;
+            border: 2px solid var(--pink);
+            transform: rotate(45deg);
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .logo:hover .logo-mark {
+            transform: rotate(135deg) scale(1.15);
+        }
+
+        .navbar nav {
+            display: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* ELEGANT, CINEMATIC TEXT NAVIGATION (NO BUTTON BOXES) */
+        .navbar nav a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14.5px;
+            font-weight: 500;
+            color: #2c2227 !important;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            padding: 8px 2px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--pink), var(--gold));
+            border-radius: 2px;
+            transform: translateX(-50%);
+            transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            opacity: 0;
+        }
+
+        .navbar nav a:hover {
+            color: var(--pink) !important;
+            transform: translateY(-1.5px);
+        }
+
+        .navbar nav a:hover::after {
+            width: 100%;
+            opacity: 1;
+        }
+
+        .navbar nav a.active {
+            color: var(--pink) !important;
+            font-weight: 600;
+        }
+
+        .navbar nav a.active::after {
+            width: 100%;
+            opacity: 1;
+        }
+
+        .navbar nav a.nav-feedback-btn {
+            padding: 8px 18px;
+            border-radius: 6px;
+            background: rgba(201, 70, 114, 0.08);
+            border: 1px solid rgba(201, 70, 114, 0.35);
+            color: var(--pink) !important;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar nav a.nav-feedback-btn::after {
+            display: none;
+        }
+
+        .navbar nav a.nav-feedback-btn:hover {
+            background: var(--pink);
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            border-color: var(--pink);
+        }
+
+        .navbar nav.active {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 24px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(201, 70, 114, 0.15);
+            gap: 12px;
+            animation: cinematicSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar nav.active a {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+        }
+
+        .navbar nav.active a:hover {
+            background: rgba(201, 70, 114, 0.08);
+            padding-left: 22px;
+        }
+
+        .navbar nav.active a.nav-feedback-btn {
+            text-align: center;
+            justify-content: center;
+            background: var(--pink);
+            color: #ffffff !important;
+            margin-top: 8px;
+        }
+
+        @keyframes cinematicSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        @media (min-width: 900px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+            .navbar nav {
+                display: flex;
+            }
+        }
+
+        /* PAGE CONTENT */
+        .page-container {
+            max-width: 760px;
+            margin: 50px auto;
+            padding: 0 20px 60px;
+            animation: cinematicFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            flex: 1;
+            width: 100%;
+        }
+
+        @keyframes cinematicFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 55px rgba(90, 48, 68, 0.08);
+        }
+
+        .eyebrow {
+            text-align: center;
+            color: var(--pink);
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--dark);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-box input:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(201, 70, 114, 0.12);
+            background: #ffffff;
+        }
+
+        .search-box button {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-box button:hover {
+            background: var(--pink-dark);
+            transform: translateY(-2px);
+        }
+
+        .search-box button:active {
+            transform: translateY(0);
+        }
+
+        .booking-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--pink);
+            padding: 22px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(90, 48, 68, 0.05);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .booking-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 35px rgba(90, 48, 68, 0.1);
+        }
+
+        .booking-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .booking-card p {
+            font-size: 14px;
+            color: var(--text);
+            margin: 4px 0;
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px 20px;
+            background: rgba(255, 240, 245, 0.5);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 25px;
+            color: var(--pink);
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-link:hover {
+            transform: translateX(-4px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 28px 20px;
+                border-radius: 10px;
+            }
+            .search-box {
+                flex-direction: column;
+            }
+            .search-box button {
+                width: 100%;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 6%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+            background: rgba(37, 28, 33, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        footer .logo {
+            color: #ffffff !important;
+            font-size: 20px;
+        }
+
+        footer p {
+            color: #bdb2b7;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .owner-link {
+            color: #f4a8c0;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .owner-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @media (min-width: 900px) {
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- WebGL Background Canvas Container -->
+<div id="iridescence-bg"></div>
+
+<header class="navbar">
+    <a href="index.html" class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Parlour
+    </a>
+
+    <button class="mobile-menu-btn" id="menuToggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav id="navLinks">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#booking">Book</a>
+        <a href="index.html#promotions">Showcase</a>
+        <a href="my-bookings.html" style="color: var(--pink);">My Bookings</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="feedbackindex.html" class="nav-feedback-btn">Feedback</a>
+    </nav>
+</header>
+
+<div class="page-container">
+    <div class="container">
+        <p class="eyebrow">APPOINTMENT LOOKUP</p>
+        <h1>Search My Bookings</h1>
+        <p class="subtitle">Enter your 10-digit phone number or Booking ID to view your appointments</p>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Enter Phone Number or Booking ID...">
+            <button onclick="searchBookings()">Search Bookings</button>
+        </div>
+
+        <div id="resultsContainer"></div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Beauty Parlour
+    </div>
+    <p>© 2026 Ushas Herbal Beauty Parlour. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="index.html" class="owner-link">Home</a>
+        <a href="my-bookings.html" class="owner-link">My Bookings</a>
+        <a href="feedbackindex.html" class="owner-link">FeedBack Page</a>
+        <a href="feedbackdash.html" class="owner-link">Feedback Wall</a>
+        <a href="admin.html" class="owner-link">Owner Dashboard</a>
+        <a href="privacy-policy.html" class="owner-link">Privacy Policy</a>
+        <a href="terms.html" class="owner-link">Terms &amp; Conditions</a>
+    </div>
+</footer>
+
+<script>
+    // Mobile navigation toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                this.classList.remove('sweep-active');
+                void this.offsetWidth;
+                this.classList.add('sweep-active');
+                setTimeout(() => this.classList.remove('sweep-active'), 600);
+            });
+        });
+    }
+
+    function searchBookings() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        const resultsContainer = document.getElementById('resultsContainer');
+        resultsContainer.innerHTML = '';
+
+        if (!query) {
+            resultsContainer.innerHTML = '<p class="no-results">Please enter a phone number or booking ID to search.</p>';
+            return;
+        }
+
+        const bookings = JSON.parse(localStorage.getItem('ushas_bookings')) || [];
+
+        // Filter bookings matching phone number or ID
+        const matchedBookings = bookings.filter(b => 
+            (b.phone && b.phone.toLowerCase().includes(query)) ||
+            (b.id && b.id.toLowerCase().includes(query))
+        );
+
+        if (matchedBookings.length === 0) {
+            resultsContainer.innerHTML = '<p class="no-results">No bookings found matching your search. If you booked recently, check your contact details.</p>';
+            return;
+        }
+
+        matchedBookings.forEach(b => {
+            const card = document.createElement('div');
+            card.className = 'booking-card';
+            card.innerHTML = `
+                <h3>${b.service || 'Salon Treatment'}</h3>
+                <p><strong>Booking ID:</strong> <span style="color: var(--pink);">${b.id}</span></p>
+                <p><strong>Customer Name:</strong> ${b.name}</p>
+                <p><strong>Phone:</strong> ${b.phone}</p>
+                <p><strong>Date &amp; Time:</strong> ${b.date} at ${b.time || 'Confirmed Slot'}</p>
+                ${b.notes ? `<p><strong>Notes:</strong> ${b.notes}</p>` : ''}
+            `;
+            resultsContainer.appendChild(card);
+        });
+    }
+
+    // Trigger search on Enter key
+    document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') searchBookings();
+    });
+</script>
+<script src="cinematic-transition.js"></script>
+
+<!-- Iridescence WebGL Shader Engine (Slowed speed, no mouse interaction) -->
+<script type="module">
+import { Renderer, Program, Mesh, Color, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@0.0.116/+esm';
+
+const ctn = document.getElementById('iridescence-bg');
+if (ctn) {
+    const color = [0.92, 0.76, 0.78]; 
+    const speed = 0.25;
+    const amplitude = 0.08;
+    const mousePos = { x: 0.5, y: 0.5 };
+
+    const renderer = new Renderer({ alpha: true });
+    const gl = renderer.gl;
+    gl.clearColor(1, 1, 1, 1);
+    ctn.appendChild(gl.canvas);
+
+    const vertexShader = `
+    attribute vec2 uv;
+    attribute vec2 position;
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 0, 1);
+    }
+    `;
+
+    const fragmentShader = `
+    precision highp float;
+    uniform float uTime;
+    uniform vec3 uColor;
+    uniform vec3 uResolution;
+    uniform vec2 uMouse;
+    uniform float uAmplitude;
+    uniform float uSpeed;
+    varying vec2 vUv;
+
+    void main() {
+        float mr = min(uResolution.x, uResolution.y);
+        vec2 uv = (vUv.xy * 2.0 - 1.0) * uResolution.xy / mr;
+        uv += (uMouse - vec2(0.5)) * uAmplitude;
+
+        float d = -uTime * 0.4 * uSpeed;
+        float a = 0.0;
+        for (float i = 0.0; i < 8.0; ++i) {
+            a += cos(i - d - a * uv.x);
+            d += sin(uv.y * i + a);
+        }
+        d += uTime * 0.4 * uSpeed;
+        vec3 col = vec3(cos(uv * vec2(d, a)) * 0.6 + 0.4, cos(a + d) * 0.5 + 0.5);
+        col = cos(col * cos(vec3(d, a, 2.5)) * 0.5 + 0.5) * uColor;
+        gl_FragColor = vec4(col, 1.0);
+    }
+    `;
+
+    let program;
+    function resize() {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        if (program) {
+            program.uniforms.uResolution.value = new Color(
+                gl.canvas.width,
+                gl.canvas.height,
+                gl.canvas.width / gl.canvas.height
+            );
+        }
+    }
+    window.addEventListener('resize', resize, false);
+    resize();
+
+    const geometry = new Triangle(gl);
+    program = new Program(gl, {
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        uniforms: {
+            uTime: { value: 0 },
+            uColor: { value: new Color(...color) },
+            uResolution: {
+                value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+            },
+            uMouse: { value: new Float32Array([mousePos.x, mousePos.y]) },
+            uAmplitude: { value: amplitude },
+            uSpeed: { value: speed }
+        }
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+
+    function update(t) {
+        requestAnimationFrame(update);
+        program.uniforms.uTime.value = t * 0.0004;
+        renderer.render({ scene: mesh });
+    }
+    requestAnimationFrame(update);
+}
+</script>
+</body>
+</html>

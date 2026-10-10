@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Portal Login - Ushas Herbal Beauty Parlour</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://www.ushasherbalbeautyparlour.com/admin-login.html">
+    <meta property="og:url" content="https://www.ushasherbalbeautyparlour.com/admin-login.html">
+    <meta property="og:site_name" content="Ushas Herbal Beauty Parlour">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cinematic-transition.css">
+
+    <style>
+        :root {
+            --pink: #c94672;
+            --pink-dark: #9e3156;
+            --pink-light: rgba(255, 244, 246, 0.75);
+            --gold: #b8864b;
+            --dark: #241b20;
+            --text: #554950;
+            --muted: #73676e;
+            --white: #ffffff;
+            --border: rgba(238, 227, 232, 0.85);
+            --green: #43a77b;
+            --orange: #ef9b43;
+            --shadow: 0 15px 45px rgba(90, 48, 68, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: var(--dark);
+            background: transparent;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        /* Iridescence Background Canvas Container */
+        #iridescence-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #iridescence-bg canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(238, 227, 232, 0.7);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -0.3px;
+        }
+
+        .logo-mark {
+            width: 9px;
+            height: 9px;
+            border: 2px solid var(--pink);
+            transform: rotate(45deg);
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .logo:hover .logo-mark {
+            transform: rotate(135deg) scale(1.1);
+        }
+
+        .navbar nav {
+            display: none;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .navbar nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1618 !important;
+            padding: 8px 12px;
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 70%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--pink), var(--gold));
+            border-radius: 2px;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar nav a:hover {
+            color: var(--pink) !important;
+            transform: translateY(-1.5px);
+        }
+
+        .navbar nav a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .navbar nav a::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.12);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .navbar nav a.sweep-active::before {
+            animation: sweepWave 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes sweepWave {
+            0% { left: -100%; opacity: 0.8; }
+            50% { opacity: 0.5; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        .navbar nav a.nav-feedback-btn {
+            background: rgba(201, 70, 114, 0.08);
+            border: 1px solid rgba(201, 70, 114, 0.35);
+            color: var(--pink) !important;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 10px rgba(201, 70, 114, 0.06);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar nav a.nav-feedback-btn::after {
+            display: none;
+        }
+
+        .navbar nav a.nav-feedback-btn:hover {
+            background: var(--pink);
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 70, 114, 0.28);
+            border-color: var(--pink);
+        }
+
+        .navbar nav.active {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 24px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(201, 70, 114, 0.15);
+            gap: 12px;
+            animation: cinematicSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar nav.active a {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+        }
+
+        .navbar nav.active a:hover {
+            background: rgba(201, 70, 114, 0.08);
+            padding-left: 22px;
+        }
+
+        @keyframes cinematicSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        @media (min-width: 900px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+            .navbar nav {
+                display: flex;
+            }
+        }
+
+        /* PAGE CONTAINER */
+        .page-container {
+            max-width: 540px;
+            width: 100%;
+            margin: 40px auto 60px;
+            padding: 0 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* AUTH CARD */
+        .auth-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(238, 227, 232, 0.9);
+            border-radius: 12px;
+            padding: 42px 36px;
+            box-shadow: 0 20px 50px rgba(90, 48, 68, 0.08), 0 0 40px rgba(201, 70, 114, 0.05);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pink), var(--gold), var(--pink-dark));
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: var(--pink);
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 26px;
+        }
+
+        .notice-box {
+            background: rgba(201, 70, 114, 0.06);
+            border: 1px solid rgba(201, 70, 114, 0.22);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 13px;
+            color: #7d334e;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .notice-box svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            fill: none;
+        }
+
+        .notice-box.locked {
+            background: rgba(67, 167, 123, 0.08);
+            border-color: rgba(67, 167, 123, 0.25);
+            color: #1f6445;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 58px 14px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--dark);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 4px rgba(201, 70, 114, 0.12);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 6px;
+            transition: color 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--pink);
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            color: white;
+            border: none;
+            padding: 15px 24px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(201, 70, 114, 0.3);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(201, 70, 114, 0.42);
+        }
+
+        .auth-btn:active {
+            transform: translateY(0);
+        }
+
+        .status-msg {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: none;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .status-msg.error {
+            display: block;
+            background: rgba(235, 87, 87, 0.1);
+            color: #c0392b;
+            border: 1px solid rgba(235, 87, 87, 0.25);
+            animation: shakeCard 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        .status-msg.success {
+            display: block;
+            background: rgba(67, 167, 123, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(67, 167, 123, 0.25);
+        }
+
+        @keyframes shakeCard {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+            40%, 60% { transform: translate3d(3px, 0, 0); }
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 6%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+            background: rgba(37, 28, 33, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        footer .logo {
+            color: #ffffff !important;
+            font-size: 20px;
+        }
+
+        footer p {
+            color: #bdb2b7;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .owner-link {
+            color: #f4a8c0;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .owner-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @media (min-width: 900px) {
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- WebGL Background Canvas Container -->
+<div id="iridescence-bg"></div>
+
+<header class="navbar">
+    <a href="index.html" class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Parlour
+    </a>
+
+    <button class="mobile-menu-btn" id="menuToggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <nav id="navLinks">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#booking">Book</a>
+        <a href="index.html#promotions">Showcase</a>
+        <a href="my-bookings.html">My Bookings</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="feedbackindex.html" class="nav-feedback-btn">Feedback</a>
+    </nav>
+</header>
+
+<div class="page-container">
+    <div class="auth-card" id="authCard">
+
+        <!-- VIEW 1: ONE-TIME SETUP MODE (Shows ONLY if password has never been created) -->
+        <div id="setupView" style="display: none;">
+            <span class="eyebrow">INITIAL OWNER SETUP</span>
+            <h1>Create Master Password</h1>
+            <p class="subtitle">Set your private master password to protect salon appointments, client records, and revenue analytics. This password can only be created once and cannot be reset or recreated.</p>
+
+            <div class="notice-box">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <div><strong>Strict Single-Time Creation:</strong> Your master password is encrypted with bcrypt (12 salt rounds) and locked permanently. No second-time password creation is permitted.</div>
+            </div>
+
+            <form id="setupForm">
+                <div class="form-group">
+                    <label for="newPassword">New Master Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="newPassword" placeholder="Create your master password (min 4 characters)" required minlength="4">
+                        <button type="button" class="toggle-password" onclick="togglePassVisibility('newPassword', this)" title="Show/Hide">Show</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Master Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="Confirm your master password" required minlength="4">
+                        <button type="button" class="toggle-password" onclick="togglePassVisibility('confirmPassword', this)" title="Show/Hide">Show</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="setupSubmitBtn">
+                    <span>Set Master Password &amp; Lock Permanently</span>
+                </button>
+            </form>
+            <div id="setupStatus" class="status-msg"></div>
+        </div>
+
+        <!-- VIEW 2: LOGIN MODE (Shows permanently once master password is created) -->
+        <div id="loginView" style="display: none;">
+            <span class="eyebrow">OWNER PORTAL</span>
+            <h1>Owner Dashboard Login</h1>
+            <p class="subtitle">Enter your private master password to access appointments, customer history, and parlour analytics.</p>
+
+            <div class="notice-box locked">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div><strong>Bcrypt Protected Access:</strong> Master password is encrypted with bcrypt and permanently locked. Second-time password creation is disabled.</div>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginPassword">Master Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Enter master password" required autofocus>
+                        <button type="button" class="toggle-password" onclick="togglePassVisibility('loginPassword', this)" title="Show/Hide">Show</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <span>Unlock Dashboard</span>
+                </button>
+            </form>
+            <div id="loginStatus" class="status-msg"></div>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <div class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Beauty Parlour
+    </div>
+    <p>© 2026 Ushas Herbal Beauty Parlour. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="index.html" class="owner-link">Home</a>
+        <a href="my-bookings.html" class="owner-link">My Bookings</a>
+        <a href="feedbackindex.html" class="owner-link">FeedBack Page</a>
+        <a href="feedbackdash.html" class="owner-link">Feedback Wall</a>
+        <a href="admin.html" class="owner-link">Owner Dashboard</a>
+        <a href="privacy-policy.html" class="owner-link">Privacy Policy</a>
+        <a href="terms.html" class="owner-link">Terms &amp; Conditions</a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+<script src="cinematic-transition.js"></script>
+
+<script>
+    const BCRYPT_HASH_KEY = 'ushas_owner_bcrypt_hash';
+    const LOCK_FLAG_KEY = 'ushas_owner_locked';
+    const BCRYPT_ROUNDS = 12;
+
+    function getBcryptLib() {
+        return (window.dcodeIO && window.dcodeIO.bcrypt) || window.bcrypt || null;
+    }
+
+    // Navigation Sweep Wave Animation
+    document.querySelectorAll('.navbar nav a, .back-home, .owner-link').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.classList.remove('sweep-active');
+            void this.offsetWidth;
+            this.classList.add('sweep-active');
+            setTimeout(() => this.classList.remove('sweep-active'), 600);
+        });
+    });
+
+    // Mobile navigation toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+
+    // Toggle Password Visibility
+    function togglePassVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.textContent = 'Hide';
+        } else {
+            input.type = 'password';
+            btn.textContent = 'Show';
+        }
+    }
+
+    // Migrate any legacy plain-text password into a 12-round bcrypt hash and delete plain text
+    function migrateLegacyPlaintextIfAny() {
+        const legacyPlain = localStorage.getItem('ushas_owner_password');
+        if (legacyPlain) {
+            const bcrypt = getBcryptLib();
+            if (bcrypt && !localStorage.getItem(BCRYPT_HASH_KEY)) {
+                const salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
+                const hash = bcrypt.hashSync(legacyPlain, salt);
+                localStorage.setItem(BCRYPT_HASH_KEY, hash);
+                localStorage.setItem(LOCK_FLAG_KEY, 'true');
+            }
+            localStorage.removeItem('ushas_owner_password');
+        }
+    }
+
+    // Permanently remove setup view from DOM once password is created
+    function lockToLoginOnly() {
+        const setupView = document.getElementById('setupView');
+        const loginView = document.getElementById('loginView');
+        if (setupView) {
+            setupView.remove();
+        }
+        if (loginView) {
+            loginView.style.display = 'block';
+        }
+    }
+
+    // Determine Mode: Setup (Strictly Single-Time) or Login
+    async function checkAuthMode() {
+        migrateLegacyPlaintextIfAny();
+
+        const localHash = localStorage.getItem(BCRYPT_HASH_KEY);
+        const isLocked = localStorage.getItem(LOCK_FLAG_KEY) === 'true';
+
+        if (localHash || isLocked) {
+            lockToLoginOnly();
+            return;
+        }
+
+        // Check backend status if Flask server is running
+        try {
+            const res = await fetch('/api/owner/status', { cache: 'no-store' });
+            if (res.ok) {
+                const data = await res.json();
+                if (data.configured) {
+                    localStorage.setItem(LOCK_FLAG_KEY, 'true');
+                    lockToLoginOnly();
+                    return;
+                }
+            }
+        } catch (_) {
+            // Static mode fallback uses localStorage bcrypt hash
+        }
+
+        const setupView = document.getElementById('setupView');
+        const loginView = document.getElementById('loginView');
+        if (setupView) setupView.style.display = 'block';
+        if (loginView) loginView.style.display = 'none';
+    }
+
+    // Setup Form Handler (Strictly One-Time Creation with Bcrypt)
+    document.getElementById('setupForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const status = document.getElementById('setupStatus');
+
+        // Block any second-time creation attempt
+        if (localStorage.getItem(BCRYPT_HASH_KEY) || localStorage.getItem(LOCK_FLAG_KEY) === 'true') {
+            lockToLoginOnly();
+            return;
+        }
+
+        const p1 = document.getElementById('newPassword').value;
+        const p2 = document.getElementById('confirmPassword').value;
+
+        if (p1.length < 4) {
+            status.className = 'status-msg error';
+            status.textContent = 'Password must be at least 4 characters long.';
+            return;
+        }
+
+        if (p1 !== p2) {
+            status.className = 'status-msg error';
+            status.textContent = 'Passwords do not match. Please re-check.';
+            return;
+        }
+
+        const submitBtn = document.getElementById('setupSubmitBtn');
+        if (submitBtn) submitBtn.disabled = true;
+
+        let bcryptHash = null;
+
+        // 1. Try backend bcrypt one-time setup first
+        try {
+            const res = await fetch('/api/owner/setup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: p1 })
+            });
+            const data = await res.json();
+            if (res.status === 403) {
+                localStorage.setItem(LOCK_FLAG_KEY, 'true');
+                lockToLoginOnly();
+                return;
+            }
+            if (res.ok && data.bcrypt_hash) {
+                bcryptHash = data.bcrypt_hash;
+            }
+        } catch (_) {
+            // Server not running; hash locally with bcryptjs below
+        }
+
+        // 2. Generate 12-round bcrypt hash in browser if not already returned by server
+        if (!bcryptHash) {
+            const bcrypt = getBcryptLib();
+            if (!bcrypt) {
+                status.className = 'status-msg error';
+                status.textContent = 'Bcrypt library failed to initialize. Please check your connection.';
+                if (submitBtn) submitBtn.disabled = false;
+                return;
+            }
+            const salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
+            bcryptHash = bcrypt.hashSync(p1, salt);
+        }
+
+        // Permanently store bcrypt hash and lock flag (never store plaintext)
+        localStorage.setItem(BCRYPT_HASH_KEY, bcryptHash);
+        localStorage.setItem(LOCK_FLAG_KEY, 'true');
+        localStorage.setItem('ushas_owner_password_created', new Date().toISOString());
+        localStorage.removeItem('ushas_owner_password');
+
+        // Authenticate current session
+        sessionStorage.setItem('ushas_owner_auth', 'true');
+
+        status.className = 'status-msg success';
+        status.textContent = 'Master Password encrypted with bcrypt and locked permanently. Opening Owner Dashboard...';
+
+        setTimeout(() => {
+            lockToLoginOnly();
+            if (window.cinematicNavigate) {
+                window.cinematicNavigate('admin.html');
+            } else {
+                window.location.href = 'admin.html';
+            }
+        }, 600);
+    });
+
+    // Login Form Handler (Bcrypt Verification)
+    document.getElementById('loginForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const input = document.getElementById('loginPassword').value;
+        const status = document.getElementById('loginStatus');
+
+        let verified = false;
+        let checkedByServer = false;
+
+        // 1. Verify against backend Python bcrypt first if Flask server is active
+        try {
+            const res = await fetch('/api/owner/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: input })
+            });
+            if (res.status === 200 || res.status === 401) {
+                checkedByServer = true;
+                verified = res.ok;
+            }
+        } catch (_) {
+            checkedByServer = false;
+        }
+
+        // 2. Verify against stored bcrypt hash using bcrypt.compareSync
+        if (!checkedByServer) {
+            const storedHash = localStorage.getItem(BCRYPT_HASH_KEY);
+            const bcrypt = getBcryptLib();
+            if (storedHash && bcrypt) {
+                try {
+                    verified = bcrypt.compareSync(input, storedHash);
+                } catch (_) {
+                    verified = false;
+                }
+            }
+        }
+
+        if (verified) {
+            sessionStorage.setItem('ushas_owner_auth', 'true');
+            status.className = 'status-msg success';
+            status.textContent = 'Bcrypt verification successful. Opening Owner Dashboard...';
+
+            setTimeout(() => {
+                if (window.cinematicNavigate) {
+                    window.cinematicNavigate('admin.html');
+                } else {
+                    window.location.href = 'admin.html';
+                }
+            }, 600);
+        } else {
+            status.className = 'status-msg error';
+            status.textContent = 'Incorrect master password. Please verify and try again.';
+            const passInput = document.getElementById('loginPassword');
+            passInput.value = '';
+            passInput.focus();
+        }
+    });
+
+    // Run auth check on load
+    checkAuthMode();
+</script>
+
+<!-- Iridescence WebGL Shader Engine (Slowed speed, no mouse interaction) -->
+<script type="module">
+import { Renderer, Program, Mesh, Color, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@0.0.116/+esm';
+
+const ctn = document.getElementById('iridescence-bg');
+if (ctn) {
+    const color = [0.92, 0.76, 0.78]; 
+    const speed = 0.25;
+    const amplitude = 0.08;
+    const mousePos = { x: 0.5, y: 0.5 };
+
+    const renderer = new Renderer({ alpha: true });
+    const gl = renderer.gl;
+    gl.clearColor(1, 1, 1, 1);
+    ctn.appendChild(gl.canvas);
+
+    const vertexShader = `
+    attribute vec2 uv;
+    attribute vec2 position;
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 0, 1);
+    }
+    `;
+
+    const fragmentShader = `
+    precision highp float;
+    uniform float uTime;
+    uniform vec3 uColor;
+    uniform vec3 uResolution;
+    uniform vec2 uMouse;
+    uniform float uAmplitude;
+    uniform float uSpeed;
+
+    vec3 c3 = vec3(0.98, 0.76, 0.82); 
+    vec3 c2 = vec3(0.94, 0.80, 0.83); 
+    vec3 c1 = vec3(0.96, 0.88, 0.86); 
+
+    void main() {
+        vec2 uv = gl_FragCoord.xy / uResolution.xy;
+        float time = uTime * uSpeed;
+        
+        vec2 p = uv * 2.0 - 1.0;
+        p.x *= uResolution.x / uResolution.y;
+
+        float d = length(p);
+        float angle = atan(p.y, p.x);
+
+        float flow = sin(d * 2.5 - time * 0.8) + cos(angle * 2.0 + time * 0.4);
+        flow += sin(p.x * 2.0 + time * 0.3) * uAmplitude;
+
+        float f = 0.5 + 0.5 * sin(flow * 1.5 + time);
+
+        vec3 col = mix(c1, c2, f);
+        col = mix(col, c3, 0.5 + 0.5 * cos(time * 0.2 + d));
+
+        gl_FragColor = vec4(col, 0.45);
+    }
+    `;
+
+    const geometry = new Triangle(gl);
+    const program = new Program(gl, {
+        vertex: vertexShader,
+        fragment: fragmentShader,
+        uniforms: {
+            uTime: { value: 0 },
+            uColor: { value: new Color(...color) },
+            uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
+            uMouse: { value: [mousePos.x, mousePos.y] },
+            uAmplitude: { value: amplitude },
+            uSpeed: { value: speed }
+        }
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+
+    function resize() {
+        renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+        program.uniforms.uResolution.value = [ctn.offsetWidth, ctn.offsetHeight];
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let animId;
+    function update(t) {
+        animId = requestAnimationFrame(update);
+        program.uniforms.uTime.value = t * 0.001;
+        renderer.render({ scene: mesh });
+    }
+    animId = requestAnimationFrame(update);
+}
+</script>
+</body>
+</html>

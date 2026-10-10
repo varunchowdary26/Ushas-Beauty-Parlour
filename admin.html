@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard | Ushas Herbal Beauty Parlour</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://www.ushasherbalbeautyparlour.com/admin.html">
+    <meta property="og:url" content="https://www.ushasherbalbeautyparlour.com/admin.html">
+    <meta property="og:site_name" content="Ushas Herbal Beauty Parlour">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cinematic-transition.css">
+
+    <script>
+        // Protect Owner Dashboard route
+        if (sessionStorage.getItem('ushas_owner_auth') !== 'true') {
+            window.location.replace('admin-login.html');
+        }
+    </script>
+
+    <style>
+        :root {
+            --pink: #c94672;
+            --pink-dark: #9e3156;
+            --pink-light: rgba(255, 244, 246, 0.75);
+            --gold: #b8864b;
+            --dark: #241b20;
+            --text: #554950;
+            --muted: #73676e;
+            --white: #ffffff;
+            --border: rgba(238, 227, 232, 0.85);
+            --green: #43a77b;
+            --orange: #ef9b43;
+            --shadow: 0 15px 45px rgba(90, 48, 68, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #iridescence-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #iridescence-bg canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        .eyebrow {
+            color: var(--pink);
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .logo-mark {
+            width: 9px;
+            height: 9px;
+            border: 2px solid var(--pink);
+            transform: rotate(45deg);
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .logo:hover .logo-mark {
+            transform: rotate(135deg) scale(1.1);
+        }
+
+        /* DASHBOARD BODY & HEADER */
+        .dashboard-body {
+            background: transparent;
+        }
+
+        .dashboard-header {
+            background: rgba(37, 28, 33, 0.95);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dashboard-header p {
+            color: #bdb2b7;
+            font-size: 12px;
+        }
+
+        .back-home {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(201, 70, 114, 0.35);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1618 !important;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 1;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .back-home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            transform: translateX(-101%);
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .back-home:hover::before {
+            transform: translateX(0);
+        }
+
+        .back-home:hover {
+            color: #000000 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+            border-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .back-home:active::before {
+            transform: translateX(0);
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        .back-home:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        @keyframes blackLayerSweep {
+            0% {
+                transform: translateX(-101%);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(101%);
+                opacity: 0;
+            }
+        }
+
+        .back-home.sweep-active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.3), transparent);
+            border-radius: 6px;
+            animation: blackLayerSweep 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* DASHBOARD LAYOUT */
+        .dashboard {
+            padding: 35px 5%;
+            max-width: 1450px;
+            width: 100%;
+            margin: auto;
+            flex: 1;
+        }
+
+        .dashboard h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(35px, 7vw, 52px);
+            line-height: 1.1;
+        }
+
+        .dashboard-title {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .month-selector {
+            width: 100%;
+        }
+
+        .month-selector label {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .month-selector input {
+            background: rgba(255, 255, 255, 0.9);
+            width: 100%;
+            margin-top: 7px;
+            padding: 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        /* STAT CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            padding: 22px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        .stat-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .stat-icon.pink {
+            background: #ffe8f0;
+            color: var(--pink);
+        }
+
+        .stat-icon.gold {
+            background: #fdf3e6;
+            color: var(--gold);
+        }
+
+        .stat-icon.green {
+            background: #e7f7ef;
+            color: var(--green);
+        }
+
+        .stat-icon.orange {
+            background: #fff0df;
+            color: var(--orange);
+        }
+
+        .stat-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .stat-card strong {
+            font-size: 23px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ANALYTICS */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .analytics-card,
+        .bookings-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .card-heading h2,
+        .bookings-heading h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 27px;
+        }
+
+        .service-analytics {
+            margin-top: 25px;
+            display: grid;
+            gap: 17px;
+        }
+
+        .service-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+        }
+
+        .service-name {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .service-count {
+            color: var(--pink);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .progress {
+            grid-column: 1 / -1;
+            height: 8px;
+            background: #f2eaed;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress div {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), #ef94b0);
+            border-radius: 4px;
+        }
+
+        .summary-insight {
+            margin-top: 25px;
+            padding: 22px;
+            border-radius: 8px;
+            background: rgba(255, 240, 245, 0.7);
+            color: var(--text);
+        }
+
+        .summary-insight strong {
+            color: var(--pink);
+        }
+
+        /* BOOKINGS CARD & TABLE */
+        .bookings-card {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+        }
+
+        .bookings-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dashboard-actions input {
+            margin: 0;
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--dark);
+            outline: none;
+        }
+
+        .export-btn {
+            border: 0;
+            background: #251c21;
+            color: white;
+            border-radius: 6px;
+            padding: 13px 18px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .export-btn:hover {
+            background: #403038;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 760px;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: 13px;
+            background: rgba(250, 247, 248, 0.8);
+        }
+
+        td {
+            padding: 16px 13px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state div {
+            margin-bottom: 10px;
+            color: var(--pink);
+        }
+
+        .empty-state h3 {
+            color: var(--dark);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (min-width: 600px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .dashboard-actions {
+                flex-direction: row;
+            }
+            .dashboard-actions input {
+                width: 220px;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .dashboard-title {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: end;
+            }
+            .month-selector {
+                width: 200px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .analytics-grid {
+                grid-template-columns: 1.3fr .7fr;
+            }
+            .bookings-heading {
+                flex-direction: row;
+                align-items: end;
+                justify-content: space-between;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 6%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+            background: rgba(37, 28, 33, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        footer .logo {
+            color: #ffffff !important;
+            font-size: 20px;
+        }
+
+        footer p {
+            color: #bdb2b7;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .owner-link {
+            color: #f4a8c0;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .owner-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        @media (min-width: 900px) {
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+
+<!-- WebGL Background Canvas Container -->
+<div id="iridescence-bg"></div>
+
+<header class="dashboard-header">
+    <div>
+        <a href="admin.html" class="logo" style="text-decoration: none; color: inherit;">
+            <span class="logo-mark" aria-hidden="true"></span>
+            Ushas Herbal Parlour
+        </a>
+        <p>Owner Dashboard</p>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end;">
+        <a href="feedbackdash.html" class="back-home">Feedback Dashboard</a>
+        <a href="feedbackindex.html" class="back-home">Submit Feedback</a>
+        <a href="index.html" class="back-home">Customer Website</a>
+        <button type="button" id="ownerLogoutBtn" class="back-home" style="cursor: pointer; background: rgba(201, 70, 114, 0.15); border: 1px solid rgba(201, 70, 114, 0.45); color: #f4a8c0 !important; font-weight: 700;">
+            Log Out
+        </button>
+    </div>
+</header>
+
+<main class="dashboard">
+    <div class="dashboard-title">
+        <div>
+            <p class="eyebrow">BUSINESS OVERVIEW</p>
+            <h1>Monthly Analytics</h1>
+        </div>
+
+        <div class="month-selector">
+            <label for="monthFilter">Month</label>
+            <input type="month" id="monthFilter">
+        </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon pink" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+                <span>Total Appointments</span>
+                <strong id="totalBookings">0</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon gold" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+                <span>Total Customers</span>
+                <strong id="totalCustomers">0</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon green">₹</div>
+            <div>
+                <span>Estimated Revenue</span>
+                <strong id="totalRevenue">₹0</strong>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon orange" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div>
+                <span>Most Popular</span>
+                <strong id="topService">None</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="analytics-grid">
+        <div class="analytics-card">
+            <div class="card-heading">
+                <div>
+                    <p class="eyebrow">PERFORMANCE</p>
+                    <h2>Fast-moving Services</h2>
+                </div>
+            </div>
+            <div id="serviceAnalytics" class="service-analytics"></div>
+        </div>
+
+        <div class="analytics-card">
+            <div class="card-heading">
+                <div>
+                    <p class="eyebrow">CUSTOMER INSIGHT</p>
+                    <h2>Booking Summary</h2>
+                </div>
+            </div>
+            <div id="summaryInsight" class="summary-insight"></div>
+        </div>
+    </section>
+
+    <!-- BOOKINGS -->
+    <section class="bookings-card">
+        <div class="bookings-heading">
+            <div>
+                <p class="eyebrow">CUSTOMER DATABASE</p>
+                <h2>Appointment Records</h2>
+            </div>
+
+            <div class="dashboard-actions">
+                <input type="search" id="searchBookings" placeholder="Search customer...">
+                <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingsTable"></tbody>
+            </table>
+        </div>
+
+        <div id="emptyBookings" class="empty-state">
+            <div>
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <h3>No appointments found</h3>
+            <p>Customer appointments will appear here.</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Beauty Parlour
+    </div>
+    <p>© 2026 Ushas Herbal Beauty Parlour. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="index.html" class="owner-link">Home</a>
+        <a href="my-bookings.html" class="owner-link">My Bookings</a>
+        <a href="feedbackindex.html" class="owner-link">FeedBack Page</a>
+        <a href="feedbackdash.html" class="owner-link">Feedback Wall</a>
+        <a href="admin.html" class="owner-link">Owner Dashboard</a>
+        <a href="privacy-policy.html" class="owner-link">Privacy Policy</a>
+        <a href="terms.html" class="owner-link">Terms &amp; Conditions</a>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="cinematic-transition.js"></script>
+<script>
+    document.getElementById('ownerLogoutBtn')?.addEventListener('click', () => {
+        if (confirm("Are you sure you want to log out of the Owner Dashboard?")) {
+            sessionStorage.removeItem('ushas_owner_auth');
+            if (window.cinematicNavigate) {
+                window.cinematicNavigate('admin-login.html');
+            } else {
+                window.location.href = 'admin-login.html';
+            }
+        }
+    });
+</script>
+
+<!-- Iridescence WebGL Shader Engine -->
+<script type="module">
+import { Renderer, Program, Mesh, Color, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@0.0.116/+esm';
+
+const ctn = document.getElementById('iridescence-bg');
+const color = [0.92, 0.76, 0.78]; 
+const speed = 0.25; // Decreased speed for calm cinematic flow
+const amplitude = 0.08;
+const mousePos = { x: 0.5, y: 0.5 };
+
+const renderer = new Renderer({ alpha: true });
+const gl = renderer.gl;
+gl.clearColor(1, 1, 1, 1);
+ctn.appendChild(gl.canvas);
+
+const vertexShader = `
+attribute vec2 uv;
+attribute vec2 position;
+varying vec2 vUv;
+void main() {
+    vUv = uv;
+    gl_Position = vec4(position, 0, 1);
+}
+`;
+
+const fragmentShader = `
+precision highp float;
+uniform float uTime;
+uniform vec3 uColor;
+uniform vec3 uResolution;
+uniform vec2 uMouse;
+uniform float uAmplitude;
+uniform float uSpeed;
+varying vec2 vUv;
+
+void main() {
+    float mr = min(uResolution.x, uResolution.y);
+    vec2 uv = (vUv.xy * 2.0 - 1.0) * uResolution.xy / mr;
+    uv += (uMouse - vec2(0.5)) * uAmplitude;
+
+    float d = -uTime * 0.4 * uSpeed;
+    float a = 0.0;
+    for (float i = 0.0; i < 8.0; ++i) {
+        a += cos(i - d - a * uv.x);
+        d += sin(uv.y * i + a);
+    }
+    d += uTime * 0.4 * uSpeed;
+    vec3 col = vec3(cos(uv * vec2(d, a)) * 0.6 + 0.4, cos(a + d) * 0.5 + 0.5);
+    col = cos(col * cos(vec3(d, a, 2.5)) * 0.5 + 0.5) * uColor;
+    gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+let program;
+function resize() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    if (program) {
+        program.uniforms.uResolution.value = new Color(
+            gl.canvas.width,
+            gl.canvas.height,
+            gl.canvas.width / gl.canvas.height
+        );
+    }
+}
+window.addEventListener('resize', resize, false);
+resize();
+
+const geometry = new Triangle(gl);
+program = new Program(gl, {
+    vertex: vertexShader,
+    fragment: fragmentShader,
+    uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new Color(...color) },
+        uResolution: {
+            value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+        },
+        uMouse: { value: new Float32Array([mousePos.x, mousePos.y]) },
+        uAmplitude: { value: amplitude },
+        uSpeed: { value: speed }
+    }
+});
+
+const mesh = new Mesh(gl, { geometry, program });
+
+function update(t) {
+    requestAnimationFrame(update);
+    program.uniforms.uTime.value = t * 0.0004;
+    renderer.render({ scene: mesh });
+}
+requestAnimationFrame(update);
+// Cursor contact removed completely for smooth ambient motion
+</script>
+</body>
+</html>

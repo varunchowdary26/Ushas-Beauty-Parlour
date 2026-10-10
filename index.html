@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ushas Beauty Parlour</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="canonical" href="https://www.ushasherbalbeautyparlour.com/">
+    <meta property="og:url" content="https://www.ushasherbalbeautyparlour.com/">
+    <meta property="og:title" content="Ushas Herbal Beauty Parlour">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cinematic-transition.css">
+
+    <style>
+        :root {
+            --pink: #c94672;
+            --pink-dark: #9e3156;
+            --pink-light: rgba(255, 244, 246, 0.75);
+            --gold: #b8864b;
+            --dark: #241b20;
+            --text: #554950;
+            --muted: #73676e;
+            --white: #ffffff;
+            --border: rgba(238, 227, 232, 0.85);
+            --green: #43a77b;
+            --orange: #d4873f;
+            --shadow: 0 15px 45px rgba(90, 48, 68, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: var(--dark);
+            background: transparent;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Iridescence Background Canvas Container */
+        #iridescence-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        #iridescence-bg canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            padding: 16px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(253, 244, 247, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 70, 114, 0.16);
+            box-shadow: 0 4px 22px rgba(90, 48, 68, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #20131a;
+            text-decoration: none;
+            letter-spacing: 0.2px;
+        }
+
+        .logo-mark {
+            width: 9px;
+            height: 9px;
+            border: 2px solid var(--pink);
+            transform: rotate(45deg);
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .logo:hover .logo-mark {
+            transform: rotate(135deg) scale(1.15);
+        }
+
+        .navbar nav {
+            display: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* ELEGANT, CINEMATIC TEXT NAVIGATION (NO BUTTON BOXES) */
+        .navbar nav a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14.5px;
+            font-weight: 500;
+            color: #2c2227 !important;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            padding: 8px 2px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            transition: color 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        /* Floating Expanding Underline: glides smoothly from center outward */
+        .navbar nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--pink), var(--gold));
+            border-radius: 2px;
+            transform: translateX(-50%);
+            transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            opacity: 0;
+        }
+
+        .navbar nav a:hover {
+            color: var(--pink) !important;
+            transform: translateY(-1.5px);
+        }
+
+        .navbar nav a:hover::after {
+            width: 100%;
+            opacity: 1;
+        }
+
+        /* Active link indicator */
+        .navbar nav a.active {
+            color: var(--pink) !important;
+            font-weight: 600;
+        }
+
+        .navbar nav a.active::after {
+            width: 100%;
+            opacity: 1;
+        }
+
+        /* Feedback Nav Link */
+        .navbar nav a.nav-feedback-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--pink) !important;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            background: rgba(201, 70, 114, 0.08);
+            border: 1px solid rgba(201, 70, 114, 0.32);
+            border-radius: 6px;
+            box-shadow: none;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .navbar nav a.nav-feedback-btn::after {
+            display: none;
+        }
+
+        .navbar nav a.nav-feedback-btn:hover {
+            background: var(--pink);
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            border-color: var(--pink);
+        }
+
+        .navbar nav.active {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 24px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(201, 70, 114, 0.15);
+            gap: 12px;
+            animation: cinematicSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .navbar nav.active a {
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 15px;
+            border-radius: 6px;
+        }
+
+        .navbar nav.active a:hover {
+            background: rgba(201, 70, 114, 0.08);
+            padding-left: 22px;
+        }
+
+        .navbar nav.active a.nav-feedback-btn {
+            text-align: center;
+            justify-content: center;
+            background: var(--pink);
+            color: #ffffff !important;
+            margin-top: 8px;
+        }
+
+        @keyframes cinematicSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 5px;
+            align-items: center;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--dark);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 500px;
+            padding: 80px 6% 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .eyebrow {
+            color: var(--pink);
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(40px, 8vw, 72px);
+            line-height: 1.05;
+            max-width: 800px;
+        }
+
+        .hero h1 span {
+            color: var(--pink);
+            font-style: italic;
+        }
+
+        .hero-text {
+            margin-top: 20px;
+            color: var(--text);
+            max-width: 540px;
+            font-size: 16px;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 30px;
+            background: var(--pink);
+            color: white;
+            border: 0;
+            border-radius: 6px;
+            padding: 15px 32px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .25s;
+        }
+
+        .primary-btn:hover {
+            background: var(--pink-dark);
+            transform: translateY(-2px);
+        }
+
+        /* SECTIONS GENERAL */
+        .section {
+            padding: 80px 6%;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 650px;
+            margin: auto auto 45px;
+        }
+
+        .section-heading h2,
+        .booking-info h2,
+        .contact-section h2 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(35px, 7vw, 52px);
+            line-height: 1.1;
+        }
+
+        .section-heading p:last-child {
+            margin-top: 12px;
+            color: var(--muted);
+        }
+
+        /* SERVICES */
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(201, 70, 114, 0.2);
+            border-radius: 10px;
+            padding: 28px;
+            box-shadow: 0 8px 32px 0 rgba(90, 48, 68, 0.06);
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.88);
+            border-color: rgba(201, 70, 114, 0.45);
+            box-shadow: 0 12px 40px 0 rgba(90, 48, 68, 0.12);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 240, 245, 0.85);
+            border: 1px solid rgba(201, 70, 114, 0.25);
+            color: var(--pink);
+            margin-bottom: 20px;
+        }
+
+        .service-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--pink);
+            fill: none;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .service-card h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--text);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .service-bottom {
+            margin-top: 20px;
+            color: var(--pink);
+            font-weight: 700;
+        }
+
+        /* BOOKING */
+        .booking-section {
+            padding: 80px 6%;
+            background: rgba(255, 244, 246, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .booking-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .booking-info {
+            padding-top: 20px;
+        }
+
+        .booking-info > p {
+            color: var(--text);
+            max-width: 450px;
+            margin-top: 20px;
+        }
+
+        .booking-benefits {
+            margin-top: 30px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .booking-benefits div {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            color: var(--text);
+        }
+
+        .booking-benefits span {
+            width: 24px;
+            height: 24px;
+            display: grid;
+            place-items: center;
+            border-radius: 4px;
+            color: white;
+            background: var(--pink);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .booking-form {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .booking-form h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .booking-form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 18px;
+        }
+
+        .booking-form label span {
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            margin-top: 7px;
+            padding: 14px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--dark);
+            outline: none;
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px rgba(201,70,114,.08);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .full-btn {
+            width: 100%;
+            border: none;
+            margin-top: 15px;
+        }
+
+        /* WOMEN'S BEAUTY PARLOUR PROMOTIONAL SHOWCASE */
+        .promo-section {
+            padding: 80px 6%;
+            max-width: 1350px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .promo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 36px;
+            margin-top: 45px;
+        }
+
+        @media (min-width: 850px) {
+            .promo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 38px;
+            }
+        }
+
+        .promo-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 12px;
+            border: 1px solid rgba(201, 70, 114, 0.25);
+            box-shadow: 0 16px 45px rgba(90, 48, 68, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(70px);
+            transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.4s ease;
+            will-change: transform, opacity;
+        }
+
+        .promo-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .promo-card.in-view:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(90, 48, 68, 0.16);
+            border-color: rgba(201, 70, 114, 0.45);
+        }
+
+        /* Image frame container */
+        .promo-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 330px;
+            overflow: hidden;
+            background: #fdf0f4;
+        }
+
+        @media (max-width: 650px) {
+            .promo-img-wrapper {
+                height: 250px;
+            }
+        }
+
+        /* Cinematic slow appearance: image glides very slowly from down to up */
+        .promo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            opacity: 0;
+            transform: translateY(120px) scale(0.92);
+            filter: blur(10px);
+            will-change: transform, opacity, filter;
+            transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 3.0s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .promo-card.in-view .promo-img {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        /* Staggered slow cinematic reveal */
+        .promo-card:nth-child(1).in-view { transition-delay: 0.1s; }
+        .promo-card:nth-child(1).in-view .promo-img { transition-delay: 0.2s; }
+
+        .promo-card:nth-child(2).in-view { transition-delay: 0.25s; }
+        .promo-card:nth-child(2).in-view .promo-img { transition-delay: 0.45s; }
+
+        .promo-card:nth-child(3).in-view { transition-delay: 0.15s; }
+        .promo-card:nth-child(3).in-view .promo-img { transition-delay: 0.3s; }
+
+        .promo-card:nth-child(4).in-view { transition-delay: 0.35s; }
+        .promo-card:nth-child(4).in-view .promo-img { transition-delay: 0.55s; }
+
+        /* Gentle hover zoom after cinematic entrance */
+        .promo-card.in-view:hover .promo-img {
+            transform: translateY(0) scale(1.05);
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Badges & Gradient on image */
+        .promo-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--pink);
+            border: 1px solid rgba(201, 70, 114, 0.35);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            z-index: 2;
+        }
+
+        .promo-img-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(36, 27, 32, 0.35) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Card Content Below Image */
+        .promo-content {
+            padding: 28px 30px 32px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            background: #ffffff;
+        }
+
+        .promo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .promo-tag {
+            color: var(--pink);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .promo-price {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+            background: rgba(201, 70, 114, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .promo-title {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            color: var(--dark);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .promo-desc {
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+
+        .promo-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .promo-features li {
+            font-size: 13px;
+            color: #333333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .promo-features li span {
+            color: var(--pink);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .promo-footer {
+            margin-top: auto;
+        }
+
+        /* Promotional Action Button with Black Text & Left-to-Right Wave */
+        .promo-action-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 24px;
+            border-radius: 6px;
+            border: 1.5px solid rgba(201, 70, 114, 0.38);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #000000 !important;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(90, 48, 68, 0.08);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s ease;
+            z-index: 1;
+            width: 100%;
+        }
+
+        .promo-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            transform: translateX(-101%);
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .promo-action-btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .promo-action-btn:hover {
+            color: #000000 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .promo-action-btn:active::before {
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        .promo-action-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .promo-action-btn.sweep-active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.3), transparent);
+            border-radius: 6px;
+            animation: blackLayerSweep 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* CONTACT */
+        .contact-section {
+            padding: 90px 6%;
+            text-align: center;
+        }
+
+        .contact-grid {
+            max-width: 900px;
+            margin: 45px auto 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .contact-grid div {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .contact-grid p {
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .contact-phone-link {
+            color: var(--pink);
+            font-weight: 700;
+            font-size: 17px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .contact-phone-link:hover {
+            color: var(--pink-dark);
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 6%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+            background: rgba(37, 28, 33, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        footer .logo {
+            color: #ffffff !important;
+            font-size: 20px;
+        }
+
+        footer p {
+            color: #bdb2b7;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .owner-link {
+            color: #f4a8c0;
+            font-size: 13px;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+
+        .owner-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            place-items: center;
+            padding: 20px;
+            background: rgba(35,25,30,.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: grid;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            max-width: 430px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0,0,0,.2);
+        }
+
+        .success-icon {
+            width: 56px;
+            height: 56px;
+            margin: auto auto 20px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            color: white;
+            background: var(--green);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .modal-box h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 32px;
+        }
+
+        .modal-box p {
+            color: var(--muted);
+            margin-top: 10px;
+        }
+
+        #appointmentSummary {
+            background: #fff0f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (min-width: 600px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            .contact-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+            .navbar {
+                padding: 20px 6%;
+            }
+            .navbar nav {
+                display: flex;
+                align-items: center;
+                gap: 24px;
+            }
+            .hero {
+                min-height: 520px;
+            }
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .booking-container {
+                grid-template-columns: .9fr 1.1fr;
+                align-items: center;
+            }
+            .booking-form {
+                padding: 35px;
+            }
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- WebGL Background Canvas Container -->
+<div id="iridescence-bg"></div>
+
+<header class="navbar">
+    <a href="#home" class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Parlour
+    </a>
+
+    <button class="mobile-menu-btn" id="menuToggle" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        
+    </button>
+
+    <nav id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#booking">Book</a>
+        <a href="my-bookings.html">My Bookings</a>
+        <a href="#contact">Contact</a>
+        <a href="feedbackindex.html" class="nav-feedback-btn">Feedback</a>
+    </nav>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <p class="eyebrow">BEAUTY / CARE / CONFIDENCE</p>
+        <h1>Your beauty, <span>our passion.</span></h1>
+        <p class="hero-text">
+            Relax, refresh and feel your best with our professional
+            beauty treatments designed specially for you.
+        </p>
+        <a href="#booking" class="primary-btn">
+            Book Appointment <span>&rarr;</span>
+        </a>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+        <div class="section-heading">
+            <p class="eyebrow">WHAT WE OFFER</p>
+            <h2>Our Beauty Services</h2>
+            <p style="color: black;">Choose the treatment that makes you feel amazing.</p>
+        </div>
+
+        <div class="services-grid">
+            <article class="service-card" onclick="selectServiceAndBook('Facial')">
+                <div class="service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.5c-4.5 0-8 3.6-8 8.5 0 5.4 4.2 10.5 8 10.5s8-5.1 8-10.5c0-4.9-3.5-8.5-8-8.5z"/><path d="M9 11h.01M15 11h.01"/><path d="M9.5 15.5c1.5 1.2 3.5 1.2 5 0"/></svg>
+                </div>
+                <h3>Facial</h3>
+                <p>Fruit Facial, Gold Facial, Diamond Facial</p>
+                <div class="service-bottom">
+                    <span>From ₹500 to 3000</span>
+                </div>
+            </article>
+
+            <article class="service-card" onclick="selectServiceAndBook('Tan Pack')">
+                <div class="service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6l2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg>
+                </div>
+                <h3>Tan Pack</h3>
+                <p>Tan Pack, D Tan, Cleanup</p>
+                <div class="service-bottom">
+                    <span>From ₹400</span>
+                </div>
+            </article>
+
+            <article class="service-card" onclick="selectServiceAndBook('Manicure & Pedicure')">
+                <div class="service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7 11V5a2 2 0 0 1 4 0v6m0-4V4a2 2 0 0 1 4 0v7m0-3V6a2 2 0 0 1 4 0v8a6 6 0 0 1-12 0v-3Z"/></svg>
+                </div>
+                <h3>Manicure & Pedicure</h3>
+                <p>Complete nail care and relaxing hand and foot treatments.</p>
+                <div class="service-bottom">
+                    <span>From ₹600</span>
+                </div>
+            </article>
+
+            <article class="service-card" onclick="selectServiceAndBook('Bridal Makeup')">
+                <div class="service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M3 18h18M4 15l3-9 5 5 5-5 3 9H4z"/></svg>
+                </div>
+                <h3>Bridal Makeup</h3>
+                <p>Beautiful bridal makeup for your most memorable day.</p>
+                <div class="service-bottom">
+                    <span>From ₹5,000</span>
+                </div>
+            </article>
+
+            <article class="service-card" onclick="selectServiceAndBook('Saree Draping')">
+                <div class="service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M8 3h8l3 18H5L8 3z"/><path d="M8 9h8M7 15h10"/></svg>
+                </div>
+                <h3>Saree Draping</h3>
+                <p>Saree Related Works</p>
+                <div class="service-bottom">
+                    <span>From ₹200</span>
+                </div>
+            </article>
+
+            <article class="service-card" onclick="selectServiceAndBook('Party Makeup')">
+                <div class="service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M9 11V6l3-3 3 3v5"/><rect x="7" y="11" width="10" height="10" rx="1"/></svg>
+                </div>
+                <h3>Party Makeup</h3>
+                <p>Glamorous makeup for parties, events and celebrations.</p>
+                <div class="service-bottom">
+                    <span>From ₹1,500</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="booking-section" id="booking">
+        <div class="booking-container">
+            <div class="booking-info">
+                <p class="eyebrow">APPOINTMENT</p>
+                <h2>Book your beauty time.</h2>
+                <p>
+                    Fill in your details and select your preferred
+                    service, date and time.
+                </p>
+                <div class="booking-benefits">
+                    <div><span>&#10003;</span> Easy online booking</div>
+                    <div><span>&#10003;</span> Quick appointment confirmation</div>
+                    <div><span>&#10003;</span> Professional beauty experts</div>
+                </div>
+            </div>
+
+            <form id="bookingForm" class="booking-form">
+                <h3>Appointment Details</h3>
+
+                <label>
+                    Full Name
+                    <input type="text" id="customerName" placeholder="Enter your name" required>
+                </label>
+
+                <label>
+                    Phone Number
+                    <input type="tel" id="customerPhone" placeholder="Enter phone number" pattern="[0-9]{10}" maxlength="10" required>
+                </label>
+
+                <label>
+                    Email <span>(Optional)</span>
+                    <input type="email" id="customerEmail" placeholder="Enter email address">
+                </label>
+
+                <label>
+                    Select Service
+                    <select id="service" required>
+                        <option value="">Choose a service</option>
+                        <option value="Facial">Facial (Fruit, Gold, Diamond) - From ₹500 to 3,000</option>
+                        <option value="Tan Pack">Tan Pack & Cleanup - From ₹400</option>
+                        <option value="Manicure & Pedicure">Manicure & Pedicure - From ₹600</option>
+                        <option value="Bridal Makeup">Bridal Makeup - From ₹5,000</option>
+                        <option value="Saree Draping">Saree Draping - From ₹200</option>
+                        <option value="Party Makeup">Party Makeup - From ₹1,500</option>
+                    </select>
+                </label>
+
+                <div class="form-row">
+                    <label>
+                        Date
+                        <input type="date" id="appointmentDate" required>
+                    </label>
+
+                    <label>
+                        Time
+                        <input type="time" id="appointmentTime" required>
+                    </label>
+                </div>
+
+                <label>
+                    Special Request <span>(Optional)</span>
+                    <textarea id="notes" rows="3" placeholder="Any special requirements?"></textarea>
+                </label>
+
+                <button type="submit" class="primary-btn full-btn">Confirm Appointment</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- WOMEN'S BEAUTY PARLOUR PROMOTIONAL SHOWCASE (AFTER BOOKING FORM) -->
+    <section class="promo-section" id="promotions">
+        <div class="section-heading">
+            <p class="eyebrow">EXCLUSIVE PARLOUR PROMOTION</p>
+            <h2>Signature Transformations & Treatments</h2>
+            <p style="color: black;">Experience our specialized herbal therapies, luxury facials, royal bridal artistry, and custom saree draping crafted exclusively for women.</p>
+        </div>
+
+        <div class="promo-grid">
+            <!-- Container 1: Tan Pack -->
+            <article class="promo-card">
+                <div class="promo-img-wrapper">
+                    <span class="promo-badge">100% Herbal De-Tan</span>
+                    <img src="tanpack.jpg" alt="Herbal Tan Pack Treatment" class="promo-img" loading="lazy">
+                    <div class="promo-img-gradient"></div>
+                </div>
+                <div class="promo-content">
+                    <div class="promo-header">
+                        <span class="promo-tag">DE-TAN & RADIANCE</span>
+                        <span class="promo-price">From ₹400</span>
+                    </div>
+                    <h3 class="promo-title">Herbal Tan Removal & Skin Glow Pack</h3>
+                    <p class="promo-desc">
+                        Revitalize sun-exposed skin with our organic botanical tan removal therapy. Enriched with natural cooling herbs, it lifts stubborn tanning, clears hyperpigmentation, and restores an even, radiant glow.
+                    </p>
+                    <ul class="promo-features">
+                        <li><span>&#10003;</span> Deep Pore Cleansing & Exfoliation</li>
+                        <li><span>&#10003;</span> Sun-Tan & Pigmentation Care</li>
+                        <li><span>&#10003;</span> Soothing Herbal Hydration & Cooling Effect</li>
+                    </ul>
+                    <div class="promo-footer">
+                        <button type="button" class="promo-action-btn" onclick="selectServiceAndBook('Tan Pack')">
+                            Book Tan Pack <span>&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Container 2: Facial (Fruit & Gold) -->
+            <article class="promo-card">
+                <div class="promo-img-wrapper">
+                    <span class="promo-badge">24K Gold & Fruit</span>
+                    <img src="facial2.jpeg" alt="Gold and Fruit Facial Treatment" class="promo-img" loading="lazy">
+                    <div class="promo-img-gradient"></div>
+                </div>
+                <div class="promo-content">
+                    <div class="promo-header">
+                        <span class="promo-tag">LUXURY FACIAL CARE</span>
+                        <span class="promo-price">From ₹500</span>
+                    </div>
+                    <h3 class="promo-title">Organic Fruit & 24K Gold Radiance Facial</h3>
+                    <p class="promo-desc">
+                        Indulge in rich botanical fruit enzymes paired with therapeutic hot steam mist and pure 24K gold serum. Boosts collagen regeneration, unclogs pores, and imparts a luminous, youthful bridal radiance.
+                    </p>
+                    <ul class="promo-features">
+                        <li><span>&#10003;</span> Nutrient-Dense Fruit Enzyme Peel</li>
+                        <li><span>&#10003;</span> 24K Gold Collagen Firming & Tightening</li>
+                        <li><span>&#10003;</span> Acupressure Lymphatic Facial & Neck Massage</li>
+                    </ul>
+                    <div class="promo-footer">
+                        <button type="button" class="promo-action-btn" onclick="selectServiceAndBook('Facial')">
+                            Book Facial Care <span>&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Container 3: Bridal Makeup -->
+            <article class="promo-card">
+                <div class="promo-img-wrapper">
+                    <span class="promo-badge">Royal Bridal Studio</span>
+                    <img src="bridel makeup.jpeg" alt="Royal Bridal Makeup and Styling" class="promo-img" loading="lazy">
+                    <div class="promo-img-gradient"></div>
+                </div>
+                <div class="promo-content">
+                    <div class="promo-header">
+                        <span class="promo-tag">BRIDAL MAKEOVER</span>
+                        <span class="promo-price">From ₹5,000</span>
+                    </div>
+                    <h3 class="promo-title">HD Royal Bridal Makeover & Hair Artistry</h3>
+                    <p class="promo-desc">
+                        Look breathtaking on your wedding day with camera-ready HD artistry. Features transfer-proof makeup customized to your tone, designer hair crowns, fresh jasmine setting, and personalized jewelry placement.
+                    </p>
+                    <ul class="promo-features">
+                        <li><span>&#10003;</span> Long-Lasting Sweat & Tear-Resistant HD Finish</li>
+                        <li><span>&#10003;</span> Royal Hairstyling with Fresh Flower Setting</li>
+                        <li><span>&#10003;</span> Pre-Bridal Skin Consultation & Shade Matching</li>
+                    </ul>
+                    <div class="promo-footer">
+                        <button type="button" class="promo-action-btn" onclick="selectServiceAndBook('Bridal Makeup')">
+                            Book Bridal Makeup <span>&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Container 4: Saree Draping -->
+            <article class="promo-card">
+                <div class="promo-img-wrapper">
+                    <span class="promo-badge">Master Silhouette Draping</span>
+                    <img src="saree draping.jpeg" onerror="this.onerror=null;this.src='img4..jpeg';" alt="Professional Saree Draping" class="promo-img" loading="lazy">
+                    <div class="promo-img-gradient"></div>
+                </div>
+                <div class="promo-content">
+                    <div class="promo-header">
+                        <span class="promo-tag">SAREE STYLING</span>
+                        <span class="promo-price">From ₹200</span>
+                    </div>
+                    <h3 class="promo-title">Flawless Saree Draping & Silhouette Styling</h3>
+                    <p class="promo-desc">
+                        Carry your traditional drape with supreme grace and freedom. Our master draping ensures razor-sharp pleats and secure pin-ups for South Indian bridal silks, Pattu, Nauvari, and contemporary designer sarees.
+                    </p>
+                    <ul class="promo-features">
+                        <li><span>&#10003;</span> Symmetrical Razor-Sharp Pleating & Pallu Flow</li>
+                        <li><span>&#10003;</span> Suitable for Heavy Kanjivaram, Pattu & Designer Silks</li>
+                        <li><span>&#10003;</span> Firm, Slip-Proof Pinning for All-Day Comfort</li>
+                    </ul>
+                    <div class="promo-footer">
+                        <button type="button" class="promo-action-btn" onclick="selectServiceAndBook('Saree Draping')">
+                            Book Saree Draping <span>&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contact">
+        <p class="eyebrow">VISIT US</p>
+        <h2>Let's make you feel beautiful.</h2>
+        <div class="contact-grid">
+            <div>
+                <strong>Address</strong>
+                <p>Madhira, Near New MLA Camp Office, TG</p>
+            </div>
+            <div>
+                <strong>Phone</strong>
+                <p><a href="tel:9100756589" class="contact-phone-link">9100756589</a></p>
+            </div>
+            <div>
+                <strong>Opening Hours</strong>
+                <p>9:00 AM to 8:00 PM</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="logo">
+        <span class="logo-mark" aria-hidden="true"></span>
+        Ushas Herbal Beauty Parlour
+    </div>
+    <p>© 2026 Ushas Herbal Beauty Parlour. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="index.html" class="owner-link">Home</a>
+        <a href="my-bookings.html" class="owner-link">My Bookings</a>
+        <a href="feedbackindex.html" class="owner-link">FeedBack Page</a>
+        <a href="feedbackdash.html" class="owner-link">Feedback Wall</a>
+        <a href="admin.html" class="owner-link">Owner Dashboard</a>
+        <a href="privacy-policy.html" class="owner-link">Privacy Policy</a>
+        <a href="terms.html" class="owner-link">Terms &amp; Conditions</a>
+    </div>
+</footer>
+
+<!-- SUCCESS POPUP -->
+<div id="successModal" class="modal">
+    <div class="modal-box">
+        <div class="success-icon">&#10003;</div>
+        <h2>Appointment Booked!</h2>
+        <p>
+            Thank you for choosing Ushas Herbal Beauty Parlour.
+            Your appointment has been recorded successfully.
+        </p>
+        <div id="appointmentSummary"></div>
+        <button class="primary-btn" onclick="closeModal()">Done</button>
+    </div>
+</div>
+
+<script>
+    // Mobile navigation toggle logic
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+            navLinks.classList.remove('active');
+            this.classList.remove('sweep-active');
+            void this.offsetWidth;
+            this.classList.add('sweep-active');
+            setTimeout(() => this.classList.remove('sweep-active'), 600);
+        });
+    });
+
+    // Directly select service and scroll down to booking section
+    function selectServiceAndBook(serviceValue) {
+        const serviceSelect = document.getElementById('service');
+        if (serviceSelect) {
+            serviceSelect.value = serviceValue;
+        }
+        const bookingSection = document.getElementById('booking');
+        if (bookingSection) {
+            bookingSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // Modal close helper
+    function closeModal() {
+        document.getElementById('successModal').classList.remove('show');
+    }
+
+    // Cinematic slow reveal for promotional image cards (comes from down to up)
+    function initPromoReveal() {
+        const promoCards = document.querySelectorAll('.promo-card');
+        if (!promoCards.length) return;
+
+        if ('IntersectionObserver' in window) {
+            const promoObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+
+            promoCards.forEach(card => promoObserver.observe(card));
+        } else {
+            promoCards.forEach(card => card.classList.add('in-view'));
+        }
+
+        // Add sweep wave animation to promo action buttons
+        document.querySelectorAll('.promo-action-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.remove('sweep-active');
+                void this.offsetWidth;
+                this.classList.add('sweep-active');
+                setTimeout(() => this.classList.remove('sweep-active'), 600);
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPromoReveal);
+    } else {
+        initPromoReveal();
+    }
+</script>
+
+<script src="script.js"></script>
+<script src="cinematic-transition.js"></script>
+
+<!-- Iridescence WebGL Shader Engine -->
+<script type="module">
+import { Renderer, Program, Mesh, Color, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@0.0.116/+esm';
+
+const ctn = document.getElementById('iridescence-bg');
+const color = [0.92, 0.76, 0.78];
+const speed = 0.25; // Decreased speed for calm cinematic flow
+const amplitude = 0.08;
+const mousePos = { x: 0.5, y: 0.5 };
+
+const renderer = new Renderer({ alpha: true });
+const gl = renderer.gl;
+gl.clearColor(1, 1, 1, 1);
+ctn.appendChild(gl.canvas);
+
+const vertexShader = `
+attribute vec2 uv;
+attribute vec2 position;
+varying vec2 vUv;
+void main() {
+    vUv = uv;
+    gl_Position = vec4(position, 0, 1);
+}
+`;
+
+const fragmentShader = `
+precision highp float;
+uniform float uTime;
+uniform vec3 uColor;
+uniform vec3 uResolution;
+uniform vec2 uMouse;
+uniform float uAmplitude;
+uniform float uSpeed;
+varying vec2 vUv;
+
+void main() {
+    float mr = min(uResolution.x, uResolution.y);
+    vec2 uv = (vUv.xy * 2.0 - 1.0) * uResolution.xy / mr;
+    uv += (uMouse - vec2(0.5)) * uAmplitude;
+
+    float d = -uTime * 0.4 * uSpeed;
+    float a = 0.0;
+    for (float i = 0.0; i < 8.0; ++i) {
+        a += cos(i - d - a * uv.x);
+        d += sin(uv.y * i + a);
+    }
+    d += uTime * 0.4 * uSpeed;
+    vec3 col = vec3(cos(uv * vec2(d, a)) * 0.6 + 0.4, cos(a + d) * 0.5 + 0.5);
+    col = cos(col * cos(vec3(d, a, 2.5)) * 0.5 + 0.5) * uColor;
+    gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+let program;
+function resize() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    if (program) {
+        program.uniforms.uResolution.value = new Color(
+            gl.canvas.width,
+            gl.canvas.height,
+            gl.canvas.width / gl.canvas.height
+        );
+    }
+}
+window.addEventListener('resize', resize, false);
+resize();
+
+const geometry = new Triangle(gl);
+program = new Program(gl, {
+    vertex: vertexShader,
+    fragment: fragmentShader,
+    uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new Color(...color) },
+        uResolution: {
+            value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+        },
+        uMouse: { value: new Float32Array([mousePos.x, mousePos.y]) },
+        uAmplitude: { value: amplitude },
+        uSpeed: { value: speed }
+    }
+});
+
+const mesh = new Mesh(gl, { geometry, program });
+
+function update(t) {
+    requestAnimationFrame(update);
+    program.uniforms.uTime.value = t * 0.0004;
+    renderer.render({ scene: mesh });
+}
+requestAnimationFrame(update);
+// Cursor contact removed completely for smooth ambient motion
+</script>
+</body>
+</html>
